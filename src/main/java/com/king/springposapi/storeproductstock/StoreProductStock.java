@@ -1,6 +1,6 @@
 package com.king.springposapi.storeproductstock;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.product.Product;
 import com.king.springposapi.stockentry.StockEntry;
 import com.king.springposapi.store.Store;
@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -44,10 +45,19 @@ public class StoreProductStock {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @OneToMany(mappedBy = "storeProductStock")
+    @OneToMany(mappedBy = "storeProductStock", fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     private List<StockEntry> stockEntries;
 
+    public StoreProductStock(Float unitPrice, Integer quantity, Integer restockTargetLevel, Integer holdingTargetLevel, Product product, Store store) {
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.restockTargetLevel = restockTargetLevel;
+        this.holdingTargetLevel= holdingTargetLevel;
+        this.product = product;
+        this.store = store;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

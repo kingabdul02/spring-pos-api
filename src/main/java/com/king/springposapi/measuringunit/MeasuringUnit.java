@@ -1,6 +1,6 @@
 package com.king.springposapi.measuringunit;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,7 +31,8 @@ public class MeasuringUnit {
 
     private String unit;
 
-    @OneToMany(mappedBy = "measuringUnit")
+    @OneToMany(mappedBy = "measuringUnit", fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     private List<Product> products;
 
@@ -41,6 +42,11 @@ public class MeasuringUnit {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public MeasuringUnit(String label, String unit, String symbol) {
+        this.label = label;
+        this.unit = unit;
+        this.symbol = symbol;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

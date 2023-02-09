@@ -34,13 +34,17 @@ public class OrderItem {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private ProductOrder order;
+    @JoinColumn(name = "product_order_id")
+    private ProductOrder productOrder;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public OrderItem(Integer quantity, Product product) {
+        this.quantity = quantity;
+        this.product = product;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

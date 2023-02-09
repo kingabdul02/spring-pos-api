@@ -48,6 +48,14 @@ public class StockEntry {
     @JoinColumn(name = "store_product_stock_id")
     private StoreProductStock storeProductStock;
 
+    public StockEntry(StockType type, StockEntryStatus status, Integer quantity_supplied, Float unit_price, StoreProductStock storeProductStock) {
+        this.type = type;
+        this.status = status;
+        this.quantity_supplied = quantity_supplied;
+        this.unit_price = unit_price;
+        this.storeProductStock = storeProductStock;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

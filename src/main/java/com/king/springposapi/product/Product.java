@@ -31,7 +31,7 @@ public class Product {
     @Column(nullable = false)
     private Float price;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -45,6 +45,12 @@ public class Product {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public Product(String name, Float price, Category category, MeasuringUnit measuringUnit) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.measuringUnit = measuringUnit;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
