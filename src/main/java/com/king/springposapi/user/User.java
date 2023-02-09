@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
+    
     public User(UUID id, String email, String firstName, String lastName, LocalDateTime lastLogin){
         this.id = id;
         this.email = email;
@@ -57,7 +57,7 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.lastLogin = lastLogin;
     }
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

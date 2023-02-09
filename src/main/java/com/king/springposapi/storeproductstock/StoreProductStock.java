@@ -1,6 +1,5 @@
 package com.king.springposapi.storeproductstock;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.product.Product;
 import com.king.springposapi.stockentry.StockEntry;
@@ -59,7 +58,6 @@ public class StoreProductStock {
         this.product = product;
         this.store = store;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

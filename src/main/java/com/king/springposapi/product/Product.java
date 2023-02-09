@@ -51,7 +51,6 @@ public class Product {
         this.category = category;
         this.measuringUnit = measuringUnit;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

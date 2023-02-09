@@ -1,6 +1,5 @@
 package com.king.springposapi.store;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.storeproductstock.StoreProductStock;
 import jakarta.persistence.*;
@@ -50,7 +49,6 @@ public class Store {
         this.name = name;
         this.location = location;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

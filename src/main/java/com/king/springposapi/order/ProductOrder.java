@@ -44,11 +44,9 @@ public class ProductOrder {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
     @OneToMany(mappedBy = "productOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<OrderItem> orderItems;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -66,7 +64,6 @@ public class ProductOrder {
         this.user = user;
         this.orderItems = orderItems;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

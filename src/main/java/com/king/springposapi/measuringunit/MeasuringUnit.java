@@ -1,6 +1,5 @@
 package com.king.springposapi.measuringunit;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.product.Product;
 import jakarta.persistence.*;
@@ -48,7 +47,6 @@ public class MeasuringUnit {
         this.unit = unit;
         this.symbol = symbol;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

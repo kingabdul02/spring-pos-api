@@ -35,8 +35,7 @@ public class Category {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+ @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @JsonIgnore
     @ToString.Exclude
     private List<Product> products;
@@ -45,7 +44,7 @@ public class Category {
         this.name = name;
         this.description = description;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

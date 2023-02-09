@@ -55,7 +55,7 @@ public class StockEntry {
         this.unit_price = unit_price;
         this.storeProductStock = storeProductStock;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
