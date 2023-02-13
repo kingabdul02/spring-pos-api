@@ -1,6 +1,7 @@
 package com.king.springposapi.orderitem;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.order.ProductOrder;
 import com.king.springposapi.product.Product;
 import jakarta.persistence.*;
@@ -34,6 +35,7 @@ public class OrderItem {
     private LocalDateTime updatedAt;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_order_id")
     private ProductOrder productOrder;
 

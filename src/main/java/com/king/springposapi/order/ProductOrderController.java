@@ -13,7 +13,7 @@ public class ProductOrderController {
     private final ProductOrderService productOrderService;
 
     @PostMapping
-    public ProductOrder create(@RequestBody ProductOrderCreateRequest request){
+    public OrderResponse create(@RequestBody ProductOrderCreateRequest request){
         return productOrderService.create(request);
     }
 }
