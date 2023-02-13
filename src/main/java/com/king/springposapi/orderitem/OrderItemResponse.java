@@ -4,9 +4,8 @@ import com.king.springposapi.product.ProductDTO;
 
 import java.util.UUID;
 
-public record OrderItemDTO(
+public record OrderItemResponse(
         int quantity,
-        UUID product_id
-//        ProductDTO product
+        ProductDTO product
 ) {
 }
