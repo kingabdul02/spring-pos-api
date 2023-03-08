@@ -19,8 +19,8 @@ public class StoreProductStockController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getStoreProductStock(@PathVariable("id")UUID id){
-        return ResponseEntity.ok(storeProductStockService.getProductStoreStock(id));
+    public ResponseEntity<?> getStoreProductStock(@PathVariable("id")String id){
+        return ResponseEntity.ok(storeProductStockService.getProductStoreStock(UUID.fromString(id)));
     }
 
     @PostMapping

@@ -21,8 +21,8 @@ public class StoreController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Optional<StoreDTO>> getStore(@PathVariable("id")UUID id){
-        return ResponseEntity.ok(storeService.getStore(id));
+    public ResponseEntity<Optional<StoreDTO>> getStore(@PathVariable("id")String id){
+        return ResponseEntity.ok(storeService.getStore(UUID.fromString(id)));
     }
 
     @PostMapping

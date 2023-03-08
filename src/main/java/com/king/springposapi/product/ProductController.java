@@ -19,6 +19,11 @@ public class ProductController {
         return productService.list();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") String id){
+        return productService.getProduct(UUID.fromString(id));
+    }
+
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody ProductCreateRequest request){
         return ResponseEntity.ok(productService.create(request));

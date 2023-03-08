@@ -35,10 +35,15 @@ public class ProductOrderService {
 
     @Transactional
     public OrderResponse create(ProductOrderCreateRequest request){
-        // TODO: 02/02/2023  getLoggedIn user to get user_id
+        var ref = new Object() {
+            float amount = 0;
+        };
+        float vat = 0;
+        float transaction_fee = 0;
+        // getLoggedIn user to get user_id
         var user = userService.getLoggedInUser().orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // TODO: 02/02/2023 generate paymentRef
+        // generate paymentRef
         var paymentRef = Long.toHexString(Instant.now().toEpochMilli());
 
         List<OrderItem> orderItems = request.orderItems()
@@ -46,21 +51,22 @@ public class ProductOrderService {
                 .map(item -> {
                     Product product = productRepository.findById(item.product_id())
                             .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                    ref.amount += calcTotal(product.getPrice(), item.quantity());
                     return new OrderItem(item.quantity(), product);
                 }).collect(Collectors.toList());
 
 
-        // TODO: 02/02/2023 create payment entry to get payment_entry_id
+        // create payment entry to get payment_entry_id
         PaymentEntry paymentEntry = new PaymentEntry(
                 "PAY_"+paymentRef,
-                request.amount(),
-                request.total(),
+                ref.amount,
+                ref.amount + vat + transaction_fee,
                 request.paymentMethod()
         );
         var entry = paymentEntryRepository.save(paymentEntry);
 
 
-        // TODO: 02/02/2023  place order
+        //  place order
         ProductOrder productOrder = new ProductOrder(
                 "Order_"+paymentRef,
                 OrderStatus.APPROVED,
@@ -73,14 +79,6 @@ public class ProductOrderService {
         productOrder.getOrderItems().forEach(item -> item.setProductOrder(productOrder));
 
         var order = productOrderRepository.save(productOrder);
-//        return new OrderResponse(
-//                order.getOrderNo(),
-//                order.getStatus(),
-//                order.getIsPaid()
-////                order.getPaymentEntry(),
-////                order.getOrderItems(),
-////                order.getUser()
-//        );
 
         OrderResponse response = new OrderResponse(
                 productOrder.getOrderNo(),
@@ -93,5 +91,10 @@ public class ProductOrderService {
                         )
                 ).toList());
         return response;
+    }
+
+    public float calcTotal(float amount, int quantity){
+        float total = amount * quantity;
+        return total;
     }
 }

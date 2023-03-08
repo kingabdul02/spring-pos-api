@@ -3,6 +3,8 @@ package com.king.springposapi.category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.product.Product;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,6 +28,8 @@ public class Category {
     private UUID id;
 
     @Column(nullable = false, unique = true)
+    @NotNull
+    @NotEmpty
     private String name;
 
     private String description;
