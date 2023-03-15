@@ -21,8 +21,8 @@ public class StockEntryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Optional<StockEntryDTO>> getStockEntry(@PathVariable("id")UUID id){
-        return ResponseEntity.ok(stockEntryService.getStockEntry(id));
+    public ResponseEntity<Optional<StockEntryDTO>> getStockEntry(@PathVariable("id")String id){
+        return ResponseEntity.ok(stockEntryService.getStockEntry(UUID.fromString(id)));
     }
 
     @PostMapping
@@ -31,9 +31,8 @@ public class StockEntryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@RequestBody StockEntryUpdateRequest request, @PathVariable("id")UUID id){
-        stockEntryService.update(request, id);
-        return ResponseEntity.ok("Record updated successfully");
+    public ResponseEntity<StockEntryDTO> update(@RequestBody StockEntryUpdateRequest request, @PathVariable("id")UUID id){
+        return stockEntryService.update(request, id);
     }
 
     @DeleteMapping("{id}")

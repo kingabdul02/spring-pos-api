@@ -1,7 +1,10 @@
 package com.king.springposapi.store;
 
+import com.king.springposapi.validators.ObjectValidator;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,8 @@ import java.util.UUID;
 public class StoreService {
     private final StoreRepository storeRepository;
     private final StoreDTOMapper storeDTOMapper;
+
+    private final ObjectValidator objectValidator;
 
     public List<StoreDTO> list(){
         return storeRepository.findAll()
@@ -37,8 +42,18 @@ public class StoreService {
         return storeRepository.save(store);
     }
 
-    public void update(@NotNull StoreUpdateRequest request, UUID id){
-//        Store store = storeRepository.save(request);
+    public ResponseEntity<StoreDTO> update(StoreUpdateRequest request, UUID id){
+        var store = storeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Store not found"));
+        store.setName(request.name());
+        store.setStatus(request.status());
+        store.setLocation(request.location());
+
+        objectValidator.validate(store);
+
+        storeRepository.save(store);
+
+        return ResponseEntity.ok(storeDTOMapper.apply(store));
     }
 
     public void delete(UUID id){

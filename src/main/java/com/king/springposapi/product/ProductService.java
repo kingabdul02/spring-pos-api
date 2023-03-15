@@ -2,7 +2,9 @@ package com.king.springposapi.product;
 
 import com.king.springposapi.category.CategoryRepository;
 import com.king.springposapi.measuringunit.MeasuringUnitRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,9 +27,14 @@ public class ProductService {
                 .toList();
     }
 
+    public ResponseEntity<ProductDTO> getProduct(UUID id) {
+        var product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        return ResponseEntity.ok(productDTOMapper.apply(product));
+    }
+
     public Product create(ProductCreateRequest request){
-        var category = categoryRepository.findById(request.category_id()).orElseThrow(() -> new IllegalArgumentException("Category not found!"));
-        var measuringUnit = measuringUnitRepository.findById(request.measuring_unit_id()).orElseThrow(() -> new IllegalArgumentException("Measuring unit not found!"));
+        var category = categoryRepository.findById(request.category_id()).orElseThrow(() -> new EntityNotFoundException("Category not found!"));
+        var measuringUnit = measuringUnitRepository.findById(request.measuring_unit_id()).orElseThrow(() -> new EntityNotFoundException("Measuring unit not found!"));
         Product product = new Product(
                 request.name(),
                 request.price(),
@@ -37,14 +44,29 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void update(ProductUpdateRequest request, UUID id){
-        var product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
-//        update record
+    public ResponseEntity<ProductDTO> update(ProductUpdateRequest request, UUID id){
+        var product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+        var measuringUnit = measuringUnitRepository.findById(request.measuring_unit_id())
+                .orElseThrow(() -> new EntityNotFoundException("Measuring unit not found"));
+
+        var category = categoryRepository.findById(request.category_id())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+
+        product.setName(request.name());
+        product.setPrice(request.price());
+        product.setMeasuringUnit(measuringUnit);
+        product.setCategory(category);
+
+        productRepository.save(product);
+
+        return ResponseEntity.ok(productDTOMapper.apply(product));
     }
 
     public void delete(UUID id){
-        var product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        var product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
         productRepository.deleteById(id);
     }
+
 
 }

@@ -1,6 +1,10 @@
 package com.king.springposapi.user;
 
+import com.king.springposapi.token.Token;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,14 +32,22 @@ public class User implements UserDetails {
     private UUID id;
 
     @Column(nullable = false)
+    @NotNull
+    @NotEmpty
     private  String firstName;
 
-    @Column(nullable = false)
+    @NotNull
+    @NotEmpty
     private  String lastName;
     @Column(nullable = false, unique = true)
+    @Email
+    @NotNull
+    @NotEmpty
     private  String email;
 
     @Column(nullable = false)
+    @NotNull
+    @NotEmpty
     private  String password;
 
     @Column(nullable = false)
@@ -43,6 +55,9 @@ public class User implements UserDetails {
     private Role role;
 
     private LocalDateTime lastLogin;
+
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

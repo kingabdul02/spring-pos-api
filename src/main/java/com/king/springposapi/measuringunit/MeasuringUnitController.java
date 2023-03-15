@@ -19,16 +19,19 @@ public class MeasuringUnitController {
         return measuringUnitService.list();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<MeasuringUnitDTO> getMeasuringUnit(@PathVariable("id")String id){
+        return measuringUnitService.getMeasuringUnit(UUID.fromString(id));
+    }
+
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody MeasuringUnitCreateRequest request){
-        measuringUnitService.create(request);
-        return ResponseEntity.ok("Record created successfully");
+    public ResponseEntity<MeasuringUnitDTO> create(@RequestBody MeasuringUnitCreateRequest request){
+        return measuringUnitService.create(request);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody MeasuringUnitUpdateRequest request){
-        measuringUnitService.update(request, id);
-        return ResponseEntity.ok("Record updated successfully");
+    public ResponseEntity<MeasuringUnitDTO> update(@PathVariable("id") UUID id, @RequestBody MeasuringUnitUpdateRequest request){
+        return measuringUnitService.update(request, id);
     }
 
     @DeleteMapping("{id}")
