@@ -46,9 +46,12 @@ public class PaymentEntry {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "order_id")
-    private ProductOrder productOrder;
+    public PaymentEntry(String paymentRef, Float amount, Float total, PaymentMethod paymentMethod) {
+        this.paymentRef = paymentRef;
+        this.amount = amount;
+        this.total = total;
+        this.paymentMethod = paymentMethod;
+    }
 
     @Override
     public boolean equals(Object o) {

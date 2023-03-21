@@ -1,6 +1,6 @@
 package com.king.springposapi.store;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.king.springposapi.storeproductstock.StoreProductStock;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,11 +31,11 @@ public class Store {
     @Column(nullable = false)
     private  String location;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private StoreStatus status;
+    private StoreStatus status = StoreStatus.ACTIVE;
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     private List<StoreProductStock> storeProductStocks;
 
@@ -45,6 +45,10 @@ public class Store {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public Store(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
